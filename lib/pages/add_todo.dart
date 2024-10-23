@@ -10,6 +10,7 @@ class AddTodo extends StatefulWidget {
   @override
   State<AddTodo> createState() => _HomepageState();
 }
+
 TextEditingController _dateController = TextEditingController();
 
 class _HomepageState extends State<AddTodo> {
@@ -68,21 +69,20 @@ class _HomepageState extends State<AddTodo> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.calendar_today),
                     enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: greyColor),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: darkBlueColor),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                       hintText: 'Date',
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: greyColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: darkBlueColor),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    hintText: 'Date',
                   ),
                   readOnly: true,
-                  onTap: (){
+                  onTap: () {
                     _selectDate();
                   },
                 ),
-
                 SizedBox(
                   height: 20,
                 ),
@@ -100,26 +100,45 @@ class _HomepageState extends State<AddTodo> {
                     hintText: 'Add Time',
                   ),
                 ),
-
-
+                SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.all(15),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [darkBlueColor, lightBlueColor],
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(color: Colors.grey)),
+                    child: const Text(
+                      "Create Todo",
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                  ),
+                ),
               ]),
         ),
       ),
     ));
   }
-  Future<void> _selectDate() async{
-    DateTime? _picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(), 
-      firstDate: DateTime(2000) ,
-      lastDate: DateTime(2100));
 
-    if(_picked != null){
+  Future<void> _selectDate() async {
+    DateTime? _picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (_picked != null) {
       setState(() {
         _dateController.text = _picked.toString().split(" ")[0];
       });
     }
   }
 }
-
-
