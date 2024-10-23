@@ -11,6 +11,17 @@ class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
+// List<Todo> todos = [Todo(title: "vjnv",description: "vrjvv"),Todo(title: "dbvvb", description: "vudfdbvhvbf")];
+  // List<int> a = [1,4,6,7];
+  // List<String> b = ["cdhbcb","cdhbdcd","ihbhv"];
+
+
+  // _test(){
+  //   for(int i=0;i<todos.length;i++){
+  //     print(todos[i].title);
+  //     print(todos[i].description);
+  //   }
+  // }
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
