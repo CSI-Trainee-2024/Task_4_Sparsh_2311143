@@ -11,6 +11,7 @@ class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
+
 // List<Todo> todos = [Todo(title: "vjnv",description: "vrjvv"),Todo(title: "dbvvb", description: "vudfdbvhvbf")];
   // List<int> a = [1,4,6,7];
   // List<String> b = ["cdhbcb","cdhbdcd","ihbhv"];
@@ -22,8 +23,24 @@ class SplashScreen extends StatefulWidget {
   //     print(todos[i].description);
   //   }
   // }
+  
+
+
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    _goToMenuPage();
+    super.initState();
+  }
+
+  _goToMenuPage() {
+    Future.delayed(const Duration(seconds: 2)).then((_) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const AddTodo()),
+          (Route<dynamic> route) => false);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
