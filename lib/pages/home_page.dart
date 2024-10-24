@@ -37,70 +37,75 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: ListView.builder(
-          itemCount: todos.length,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.05, vertical: 16),
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.05, vertical: 16),
-              color: lightBlueColor,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    height: 40,
-                    width: screenWidth * 0.1,
-                    child: Image.asset("assets/splash_image.png"),
-                  ),
-                  SizedBox(
-                    width: screenWidth * 0.025,
-                  ),
-                  Container(
-                    width: screenWidth * 0.45,
-                    child: Column(
+            body: ListView.builder(
+                itemCount: todos.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05, vertical: 16),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05, vertical: 16),
+                    color: lightBlueColor,
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          todos[index].title!,
+                      children: <Widget>[
+                        Container(
+                          height: 40,
+                          width: screenWidth * 0.1,
+                          child: Image.asset("assets/splash_image.png"),
                         ),
                         SizedBox(
-                          height: 10,
+                          width: screenWidth * 0.025,
                         ),
-                        Text(todos[index].description!)
+                        Container(
+                          width: screenWidth * 0.45,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                todos[index].title!,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(todos[index].description!)
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: screenWidth * 0.025,
+                        ),
+                        Container(
+                          width: screenWidth * 0.2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                todos[index].date!,
+                              ),
+                              Text(todos[index].time!),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    width: screenWidth * 0.025,
-                  ),
-                  Container(
-                    width: screenWidth * 0.2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          todos[index].date!,
-                        ),
-                        Text(todos[index].time!),
-                      ],
-                    ),
-                  )
-                ],
+                  );
+                }),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(
+                Icons.add,
+                color: darkBlueColor,
               ),
-            );
-          }),
-          floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add,
-             color: darkBlueColor,
-        ),
-        backgroundColor: lightBlueColor,
-         onPressed: () { 
-           Navigator.of(context).push(MaterialPageRoute(
-           builder: (context) => AddTodo()));
-          },
-        )
-    ));
+              backgroundColor: lightBlueColor,
+              onPressed: () async {
+                final Todo todo = await Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => AddTodo()));
+                if (todo.title != "") {
+                  setState(() {
+                    todos.add(todo);
+                  });
+                }
+              },
+            )));
   }
 }

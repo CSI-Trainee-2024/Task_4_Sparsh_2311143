@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/constants/size.dart';
-import 'package:todo_app/pages/add_todo.dart';
 import 'package:todo_app/pages/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
