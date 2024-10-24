@@ -14,40 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Todo> todos = [
-    Todo(
-        title: "Sparsh",
-        description: "Test Todo Description",
-        date: '2024-10-24',
-        time: '1:30'),
-    Todo(
-        title: "Gupta",
-        description:
-            "Todo tdjfejkgfewkgewkg vnrergkerkgerkghergh nkgnergerg jnewkg fnewgerkg ",
-        date: '2024-10-24',
-        time: '2:30'),
-    Todo(
-        title: "App",
-        description: "Todo task",
-        date: '2024-10-24',
-        time: '2:30'),
-        Todo(
-        title: "Sparsh",
-        description: "Test Todo Description",
-        date: '2024-10-24',
-        time: '1:30'),
-    Todo(
-        title: "Gupta",
-        description:
-            "Todo tdjfejkgfewkgewkg vnrergkerkgerkghergh nkgnergerg jnewkg fnewgerkg ",
-        date: '2024-10-24',
-        time: '2:30'),
-    Todo(
-        title: "App",
-        description: "Todo task",
-        date: '2024-10-24',
-        time: '2:30')
-  ];
+  List<Todo> todos = [];
 
   double _getCompletedTodosValue() {
     int numberOfCompletedTodos = 0;
@@ -63,7 +30,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: backgroundColor,
             body: Column(
               children: [
                 Padding(
@@ -158,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                                         Text(
                                           todos[index].date!,
                                         ),
-                                        Text(todos[index].time!),
+                                        // Text(todos[index].time!),
                                         // Row(children: [
                                         //   IconButton(onPressed: (){}, icon: Icon(Icons.edit),iconSize: 20,),
                                         //   IconButton(onPressed: (){}, icon: Icon(Icons.delete),iconSize: 20,)

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/constants/size.dart';
+import 'package:todo_app/pages/add_todo.dart';
 import 'package:todo_app/pages/home_page.dart';
 import 'package:todo_app/splash.dart';
 
@@ -28,9 +30,15 @@ class MyApp extends StatelessWidget {
           currentFocus.focusedChild ?.unfocus();
         }
       },
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomePage(),
+         theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: blueColor),
+        scaffoldBackgroundColor: backgroundColor
+      ),
+
+
+        home: const AddTodo(),
       ),
     );
   }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
+import 'package:todo_app/constants/size.dart';
 import 'package:todo_app/models/todo_model.dart';
 
 class AddTodo extends StatefulWidget {
@@ -15,8 +16,9 @@ class _HomepageState extends State<AddTodo> {
   final _form = GlobalKey<FormState>();
 
   final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
 
   final TimeOfDay _timeOfDay = TimeOfDay.now();
@@ -36,12 +38,20 @@ class _HomepageState extends State<AddTodo> {
   }
 
   Future<void> _selectTime() async {
-    TimeOfDay? picked =
-        await showTimePicker(initialTime: _timeOfDay, context: context);
+    TimeOfDay? picked = await showTimePicker(
+      initialTime: _timeOfDay,
+      context: context,
+      builder: (BuildContext? context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: false),
+          child: child!,
+        );
+      },
+    );
 
     if (picked != null) {
       setState(() {
-        _timeController.text =
+        _startTimeController.text =
             "${picked.hour.toString()}H : ${picked.minute.toString()}M";
       });
     }
@@ -50,18 +60,72 @@ class _HomepageState extends State<AddTodo> {
   void createTODO() {
     final validateStatus = _form.currentState?.validate();
     if (validateStatus!) {
-      final Todo todo = Todo(
-          title: _titleController.text,
-          description: _descController.text,
-          date: _dateController.text,
-          time: _timeController.text);
-      _titleController.clear();
-      _descController.clear();
-      _dateController.clear();
-      _timeController.clear();
+      // final Todo todo = Todo(
+      //     title: _titleController.text,
+      //     description: _descController.text,
+      //     date: _dateController.text,
+      //     time: _startTimeController.text);
+      // _titleController.clear();
+      // _descController.clear();
+      // _dateController.clear();
+      // _startTimeController.clear();
 
-      Navigator.pop(context, todo);
+      // Navigator.pop(context, todo);
     }
+  }
+
+  Text _getTextFormFieldHeading(String text) {
+    return Text(text,
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
+  }
+
+  InputDecoration _getTextFormFieldInputDecoration() {
+    return InputDecoration(
+      fillColor: whiteColor,
+      filled: true,
+      focusColor: whiteColor,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: whiteColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: whiteColor),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    );
+  }
+
+  InputDecoration _getTextFormFieldInputDecorationWithIcon(Icon icon) {
+    return InputDecoration(
+      suffixIcon: icon,
+      fillColor: whiteColor,
+      filled: true,
+      focusColor: whiteColor,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: whiteColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: whiteColor),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    );
   }
 
   @override
@@ -76,110 +140,71 @@ class _HomepageState extends State<AddTodo> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: lightBlueColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: IconButton(
-                        onPressed: () {
-                          Todo todo = Todo(title: "", description: "", date: "", time: "");
-                          Navigator.pop(context,todo);
-                        }, icon: Icon(Icons.arrow_back)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: IconButton(
+                            onPressed: () {
+                              // Todo todo = Todo(
+                              //     title: "",
+                              //     description: "",
+                              //     date: "",
+                              //     time: "");
+                              // Navigator.pop(context, todo);
+                            },
+                            icon: Icon(Icons.arrow_back)),
+                      ),
+                      Text(
+                        "Create New Task",
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10, width: 10)
+                    ],
                   ),
                   SizedBox(
-                    height: 20,
+                    height: screenHeight * 0.08,
                   ),
-                  Text(
-                    "ADD TASK",
-                    style: TextStyle(
-                      color: blackcolor,
-                      fontSize: 20,
-                    ),
-                  ),
+                  _getTextFormFieldHeading("Task Name"),
                   TextFormField(
-                    controller: _titleController,
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                    validator: (text) {
-                      if (text == null || text.isEmpty) {
-                        return "Enter a title";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: borderColor),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: darkBlueColor),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "ADD DESCRIPTION",
-                    style: TextStyle(
-                      color: blackcolor,
-                      fontSize: 20,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 100,
-                    child: TextFormField(
-                      controller: _descController,
-                      maxLines: null,
-                      expands: true,
-                      keyboardType: TextInputType.multiline,
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      controller: _titleController,
                       validator: (text) {
                         if (text == null || text.isEmpty) {
-                          return "Enter a Desc";
+                          return "Enter a title";
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: borderColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: darkBlueColor),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
+                      decoration: _getTextFormFieldInputDecoration()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _getTextFormFieldHeading("Description"),
+                  SizedBox(
+                    height: 100,
+                    child: TextFormField(
+                        controller: _descController,
+                        maxLines: null,
+                        expands: true,
+                        keyboardType: TextInputType.multiline,
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return "Enter a Desc";
+                          }
+                          return null;
+                        },
+                        decoration: _getTextFormFieldInputDecoration()),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    "ADD DATE",
-                    style: TextStyle(
-                      color: blackcolor,
-                      fontSize: 20,
-                    ),
-                  ),
+                  _getTextFormFieldHeading("Date"),
                   TextFormField(
                     controller: _dateController,
                     validator: (text) {
@@ -188,25 +213,8 @@ class _HomepageState extends State<AddTodo> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.calendar_today),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: borderColor),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: darkBlueColor),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+                    decoration: _getTextFormFieldInputDecorationWithIcon(
+                        Icon(Icons.calendar_month_outlined)),
                     readOnly: true,
                     onTap: () {
                       _selectDate();
@@ -215,63 +223,66 @@ class _HomepageState extends State<AddTodo> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    "ADD TIME",
-                    style: TextStyle(
-                      color: blackcolor,
-                      fontSize: 20,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(child: _getTextFormFieldHeading("Start Time")),
+                      SizedBox(width: 20),
+                      Expanded(child: _getTextFormFieldHeading("End Time"))
+                    ],
                   ),
-                  TextFormField(
-                      controller: _timeController,
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                      validator: (text) {
-                        if (text == null || text.isEmpty) {
-                          return "Enter a Time";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.timer_sharp),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: borderColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: darkBlueColor),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: TextFormField(
+                            controller: _startTimeController,
+                            style: TextStyle(fontSize: 18, color: Colors.black),
+                            validator: (text) {
+                              if (text == null || text.isEmpty) {
+                                return "Enter a Time";
+                              }
+                              return null;
+                            },
+                            decoration:
+                                _getTextFormFieldInputDecorationWithIcon(
+                                    Icon(Icons.timer_outlined)),
+                            readOnly: true,
+                            onTap: _selectTime),
                       ),
-                      readOnly: true,
-                      onTap: _selectTime),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Flexible(
+                        child: TextFormField(
+                            controller: _startTimeController,
+                            style: TextStyle(fontSize: 18, color: Colors.black),
+                            validator: (text) {
+                              if (text == null || text.isEmpty) {
+                                return "Enter a Time";
+                              }
+                              return null;
+                            },
+                            decoration:
+                                _getTextFormFieldInputDecorationWithIcon(
+                                    Icon(Icons.timer_outlined)),
+                            readOnly: true,
+                            onTap: _selectTime),
+                      ),
+                    ],
+                  ),
                   SizedBox(
-                    height: 20,
+                    height: screenHeight * 0.10,
                   ),
                   GestureDetector(
                     onTap: createTODO,
                     child: Container(
-                      padding: const EdgeInsets.all(15),
                       alignment: Alignment.center,
+                      width: screenWidth * 0.9,
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [darkBlueColor, lightBlueColor],
-                          ),
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(color: Colors.grey)),
-                      child: const Text(
-                        "Create Todo",
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                      ),
+                          color: blueColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: const Text("Create Task",
+                          style: TextStyle(fontSize: 20, color: whiteColor)),
                     ),
                   ),
                 ]),
