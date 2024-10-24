@@ -69,6 +69,13 @@ class _HomepageState extends State<AddTodo> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Text(
+                  "ADD TASK",
+                  style: TextStyle(
+                    color: redcolor,
+                    fontSize: 20,
+                  ),
+                ),
                 TextFormField(
                   controller: _titleController,
                   style: TextStyle(fontSize: 18, color: Colors.black),
@@ -86,6 +93,13 @@ class _HomepageState extends State<AddTodo> {
                 ),
                 SizedBox(
                   height: 20,
+                ),
+                Text(
+                  "ADD DESCRIPTION",
+                  style: TextStyle(
+                    color: redcolor,
+                    fontSize: 20,
+                  ),
                 ),
                 SizedBox(
                   height: 100,
@@ -105,11 +119,20 @@ class _HomepageState extends State<AddTodo> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       hintText: 'Add Description',
+                     
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 20,
+                ),
+
+                Text(
+                  "ADD DATE",
+                  style: TextStyle(
+                    color: redcolor,
+                    fontSize: 20,
+                  ),
                 ),
                 TextFormField(
                   controller: _dateController,
@@ -132,6 +155,14 @@ class _HomepageState extends State<AddTodo> {
                 ),
                 SizedBox(
                   height: 20,
+                ),
+
+                Text(
+                  "ADD TIME",
+                  style: TextStyle(
+                    color: redcolor,
+                    fontSize: 20,
+                  ),
                 ),
                 TextFormField(
                     controller: _timeController,
