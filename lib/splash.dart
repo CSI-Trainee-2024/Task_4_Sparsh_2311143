@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/constants/size.dart';
 import 'package:todo_app/pages/add_todo.dart';
+import 'package:todo_app/pages/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _goToMenuPage() {
     Future.delayed(const Duration(seconds: 2)).then((_) {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const AddTodo()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
           (Route<dynamic> route) => false);
     });
   }

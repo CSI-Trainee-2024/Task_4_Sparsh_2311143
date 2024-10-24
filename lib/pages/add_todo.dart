@@ -72,7 +72,7 @@ class _HomepageState extends State<AddTodo> {
                 Text(
                   "ADD TASK",
                   style: TextStyle(
-                    color: redcolor,
+                    color: blackcolor,
                     fontSize: 20,
                   ),
                 ),
@@ -88,7 +88,6 @@ class _HomepageState extends State<AddTodo> {
                       borderSide: BorderSide(color: darkBlueColor),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    hintText: 'Add a Todo',
                   ),
                 ),
                 SizedBox(
@@ -97,7 +96,7 @@ class _HomepageState extends State<AddTodo> {
                 Text(
                   "ADD DESCRIPTION",
                   style: TextStyle(
-                    color: redcolor,
+                    color: blackcolor,
                     fontSize: 20,
                   ),
                 ),
@@ -118,19 +117,16 @@ class _HomepageState extends State<AddTodo> {
                         borderSide: BorderSide(color: darkBlueColor),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      hintText: 'Add Description',
-                     
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-
                 Text(
                   "ADD DATE",
                   style: TextStyle(
-                    color: redcolor,
+                    color: blackcolor,
                     fontSize: 20,
                   ),
                 ),
@@ -146,7 +142,6 @@ class _HomepageState extends State<AddTodo> {
                       borderSide: BorderSide(color: darkBlueColor),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    hintText: 'Date',
                   ),
                   readOnly: true,
                   onTap: () {
@@ -156,11 +151,10 @@ class _HomepageState extends State<AddTodo> {
                 SizedBox(
                   height: 20,
                 ),
-
                 Text(
                   "ADD TIME",
                   style: TextStyle(
-                    color: redcolor,
+                    color: blackcolor,
                     fontSize: 20,
                   ),
                 ),
@@ -177,7 +171,6 @@ class _HomepageState extends State<AddTodo> {
                         borderSide: BorderSide(color: darkBlueColor),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      hintText: 'Add Time',
                     ),
                     readOnly: true,
                     onTap: _selectTime),
