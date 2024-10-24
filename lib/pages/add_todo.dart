@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/models/todo_model.dart';
-import 'package:todo_app/shared/todo_list.dart';
 
 class AddTodo extends StatefulWidget {
   const AddTodo({super.key});
@@ -52,11 +51,12 @@ class _HomepageState extends State<AddTodo> {
         description: _descController.text,
         date: _dateController.text,
         time: _timeController.text);
-    todos.add(todo);
     _titleController.clear();
     _descController.clear();
     _dateController.clear();
     _timeController.clear();
+
+    Navigator.pop(context);
   }
 
   @override
