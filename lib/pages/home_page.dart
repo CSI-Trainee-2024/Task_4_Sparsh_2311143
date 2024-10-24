@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/constants/size.dart';
 import 'package:todo_app/models/todo_model.dart';
+import 'package:todo_app/pages/add_todo.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -94,8 +95,12 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add,
              color: darkBlueColor,
         ),
-        backgroundColor: lightBlueColor, onPressed: () {  },
-          )
+        backgroundColor: lightBlueColor,
+         onPressed: () { 
+           Navigator.of(context).push(MaterialPageRoute(
+           builder: (context) => AddTodo()));
+          },
+        )
     ));
   }
 }
