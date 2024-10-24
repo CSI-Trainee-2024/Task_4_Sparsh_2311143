@@ -40,7 +40,7 @@ class _HomepageState extends State<AddTodo> {
     }
   }
 
-  Future<void> _selectTime() async {
+  Future<void> _selectTime(TextEditingController controller) async {
     TimeOfDay? picked = await showTimePicker(
       initialTime: _timeOfDay,
       context: context,
@@ -53,9 +53,36 @@ class _HomepageState extends State<AddTodo> {
     );
 
     if (picked != null) {
+
+      String hour = "";
+      String min = "";
+      String ampm = "";
+
+      print(picked.hour);
+      if(picked.hour > 12){
+        if((picked.hour - 12) > 10){
+          hour = (picked.hour - 12).toString();
+        }else{
+          hour = "0${picked.hour - 12}";
+        }
+      }else{
+        if(picked.hour > 10){
+          hour = picked.hour.toString();
+        }else{
+          hour = "0${picked.hour}";
+        }
+      }
+
+
+      if(picked.minute > 9){
+        min = picked.minute.toString();
+      }else{
+        min = "0${picked.minute}";
+      }
+
       setState(() {
-        _startTimeController.text =
-            "${picked.hour.toString()}H : ${picked.minute.toString()}M";
+        controller.text =
+            "$hour:$min ${picked.period.toString().split(".")[1].toUpperCase()}";
       });
     }
   }
@@ -80,22 +107,23 @@ class _HomepageState extends State<AddTodo> {
   GestureDetector _getCategoryContainers(
       String text, bool isSelected, int index) {
     return GestureDetector(
-        onTap: (){
+        onTap: () {
           setState(() {
             selectedCategory = index;
           });
         },
         child: Container(
-          width: screenWidth /4,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-          color:isSelected ?  blueColor : borderColor, borderRadius: BorderRadius.circular(10)),
-                  child: Text(
-        text,
-        style: TextStyle(fontSize: 16, color: isSelected ? whiteColor : blackcolor),
-                  ),
-                ));
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: isSelected ? blueColor : greyColor,
+              borderRadius: BorderRadius.circular(10)),
+          child: Text(
+            text,
+            style: TextStyle(
+                fontSize: 16, color: isSelected ? whiteColor : blackcolor),
+          ),
+        ));
   }
 
   Text _getTextFormFieldHeading(String text) {
@@ -209,17 +237,20 @@ class _HomepageState extends State<AddTodo> {
                     height: 20,
                   ),
                   _getTextFormFieldHeading("Category"),
-                                    SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _getCategoryContainers(categories[0], selectedCategory == 0, 0),
+                      _getCategoryContainers(
+                          categories[0], selectedCategory == 0, 0),
                       SizedBox(width: 20),
-                      _getCategoryContainers(categories[1], selectedCategory == 1, 1),
-                       SizedBox(width: 20),
-                      _getCategoryContainers(categories[2], selectedCategory == 2, 2),
+                      _getCategoryContainers(
+                          categories[1], selectedCategory == 1, 1),
+                      SizedBox(width: 20),
+                      _getCategoryContainers(
+                          categories[2], selectedCategory == 2, 2),
                     ],
                   ),
                   SizedBox(
@@ -287,14 +318,14 @@ class _HomepageState extends State<AddTodo> {
                                 _getTextFormFieldInputDecorationWithIcon(
                                     Icon(Icons.timer_outlined)),
                             readOnly: true,
-                            onTap: _selectTime),
+                            onTap: () => _selectTime(_startTimeController)),
                       ),
                       SizedBox(
                         width: 20,
                       ),
                       Flexible(
                         child: TextFormField(
-                            controller: _startTimeController,
+                            controller: _endTimeController,
                             style: TextStyle(fontSize: 18, color: Colors.black),
                             validator: (text) {
                               if (text == null || text.isEmpty) {
@@ -306,7 +337,7 @@ class _HomepageState extends State<AddTodo> {
                                 _getTextFormFieldInputDecorationWithIcon(
                                     Icon(Icons.timer_outlined)),
                             readOnly: true,
-                            onTap: _selectTime),
+                            onTap: () => _selectTime(_endTimeController)),
                       ),
                     ],
                   ),

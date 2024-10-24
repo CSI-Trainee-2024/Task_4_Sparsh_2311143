@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(height: 15),
                       LinearProgressIndicator(
                         value: _getCompletedTodosValue(),
-                        backgroundColor: borderColor,
+                        backgroundColor: greyColor,
                         color: whiteColor,
                         minHeight: 10.0,
                         borderRadius: BorderRadius.circular(10),
