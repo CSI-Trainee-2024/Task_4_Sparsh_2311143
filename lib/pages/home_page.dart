@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                               width: screenWidth * 0.025,
                             ),
                             Container(
-                              color: Colors.red,
+                              
                               width: screenWidth * 0.2,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
