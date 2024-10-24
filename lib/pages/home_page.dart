@@ -21,7 +21,8 @@ class _HomePageState extends State<HomePage> {
         time: '1:30'),
     Todo(
         title: "Gupta",
-        description: "Todo tdjfejkgfewkgewkg vnrergkerkgerkghergh nkgnergerg jnewkg fnewgerkg ",
+        description:
+            "Todo tdjfejkgfewkgewkg vnrergkerkgerkghergh nkgnergerg jnewkg fnewgerkg ",
         date: '2024-10-24',
         time: '2:30'),
     Todo(
@@ -39,24 +40,49 @@ class _HomePageState extends State<HomePage> {
           itemCount: todos.length,
           itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              margin: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.05, vertical: 16),
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.05, vertical: 16),
               color: lightBlueColor,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
+                  Container(
                     height: 40,
-                    width: 40,
+                    width: screenWidth * 0.1,
                     child: Image.asset("assets/splash_image.png"),
                   ),
+                  SizedBox(
+                    width: screenWidth * 0.025,
+                  ),
                   Container(
-                    width: screenWidth*0.6,
+                    width: screenWidth * 0.45,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           todos[index].title!,
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Text(todos[index].description!)
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.025,
+                  ),
+                  Container(
+                    width: screenWidth * 0.2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          todos[index].date!,
+                        ),
+                        Text(todos[index].time!),
                       ],
                     ),
                   )
@@ -64,6 +90,12 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           }),
+          floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add,
+             color: darkBlueColor,
+        ),
+        backgroundColor: lightBlueColor, onPressed: () {  },
+          )
     ));
   }
 }
