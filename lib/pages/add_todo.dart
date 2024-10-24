@@ -110,7 +110,7 @@ class _HomepageState extends State<AddTodo> {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: greyColor),
+                        borderSide: BorderSide(color: borderColor),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: darkBlueColor),
@@ -153,7 +153,7 @@ class _HomepageState extends State<AddTodo> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: greyColor),
+                          borderSide: BorderSide(color: borderColor),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: darkBlueColor),
@@ -192,7 +192,7 @@ class _HomepageState extends State<AddTodo> {
                       suffixIcon: Icon(Icons.calendar_today),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: greyColor),
+                        borderSide: BorderSide(color: borderColor),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: darkBlueColor),
@@ -235,7 +235,7 @@ class _HomepageState extends State<AddTodo> {
                         suffixIcon: Icon(Icons.timer_sharp),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: greyColor),
+                          borderSide: BorderSide(color: borderColor),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: darkBlueColor),
