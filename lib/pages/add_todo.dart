@@ -15,6 +15,9 @@ class AddTodo extends StatefulWidget {
 class _HomepageState extends State<AddTodo> {
   final _form = GlobalKey<FormState>();
 
+  final List<String> categories = ["Design", "Development", "Research"];
+  int selectedCategory = 0;
+
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
@@ -72,6 +75,27 @@ class _HomepageState extends State<AddTodo> {
 
       // Navigator.pop(context, todo);
     }
+  }
+
+  GestureDetector _getCategoryContainers(
+      String text, bool isSelected, int index) {
+    return GestureDetector(
+        onTap: (){
+          setState(() {
+            selectedCategory = index;
+          });
+        },
+        child: Container(
+          width: screenWidth /4,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+          color:isSelected ?  blueColor : borderColor, borderRadius: BorderRadius.circular(10)),
+                  child: Text(
+        text,
+        style: TextStyle(fontSize: 16, color: isSelected ? whiteColor : blackcolor),
+                  ),
+                ));
   }
 
   Text _getTextFormFieldHeading(String text) {
@@ -181,6 +205,23 @@ class _HomepageState extends State<AddTodo> {
                         return null;
                       },
                       decoration: _getTextFormFieldInputDecoration()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _getTextFormFieldHeading("Category"),
+                                    SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _getCategoryContainers(categories[0], selectedCategory == 0, 0),
+                      SizedBox(width: 20),
+                      _getCategoryContainers(categories[1], selectedCategory == 1, 1),
+                       SizedBox(width: 20),
+                      _getCategoryContainers(categories[2], selectedCategory == 2, 2),
+                    ],
+                  ),
                   SizedBox(
                     height: 20,
                   ),
