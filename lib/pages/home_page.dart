@@ -46,46 +46,85 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.symmetric(
                         horizontal: screenWidth * 0.05, vertical: 16),
                     color: lightBlueColor,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: 40,
-                          width: screenWidth * 0.1,
-                          child: Image.asset("assets/splash_image.png"),
-                        ),
-                        SizedBox(
-                          width: screenWidth * 0.025,
-                        ),
-                        Container(
-                          width: screenWidth * 0.45,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                todos[index].title!,
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: 40,
+                              width: screenWidth * 0.1,
+                              child: Image.asset("assets/splash_image.png"),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.025,
+                            ),
+                            Container(
+                              width: screenWidth * 0.45,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    todos[index].title!,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(todos[index].description!)
+                                ],
                               ),
-                              SizedBox(
-                                height: 10,
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.025,
+                            ),
+                            Container(
+                              color: Colors.red,
+                              width: screenWidth * 0.2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    todos[index].date!,
+                                  ),
+                                  Text(todos[index].time!),
+                                  // Row(children: [
+                                  //   IconButton(onPressed: (){}, icon: Icon(Icons.edit),iconSize: 20,),
+                                  //   IconButton(onPressed: (){}, icon: Icon(Icons.delete),iconSize: 20,)
+                                  // ],)
+                                ],
                               ),
-                              Text(todos[index].description!)
-                            ],
-                          ),
+                            )
+                          ],
                         ),
-                        SizedBox(
-                          width: screenWidth * 0.025,
-                        ),
-                        Container(
-                          width: screenWidth * 0.2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                todos[index].date!,
-                              ),
-                              Text(todos[index].time!),
-                            ],
-                          ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            //IconButton(onPressed: (){}, icon: Icon(Icons.edit),iconSize: 20,),
+                            Checkbox(
+                              value: todos[index].isCompleted,
+                              onChanged: (value) {
+                                setState(() {
+                                  todos[index].isCompleted = value!;
+                                });
+                              },
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.edit),
+                              iconSize: 20,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  todos.removeAt(index);
+                                });
+                              },
+                              icon: Icon(Icons.delete),
+                              color: Colors.red,
+                              iconSize: 20,
+                            ),
+                          ],
                         )
                       ],
                     ),
