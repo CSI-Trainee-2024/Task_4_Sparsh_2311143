@@ -93,7 +93,14 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 10),
                 Expanded(
-                  child: ListView.builder(
+                  child: todos.length == 0 ? Column(
+                    children: [
+                      Image.asset("assets/placeholder.png" ,color: greyColor.withOpacity(0.3)),
+                      Text("No Task found",
+                      style: TextStyle(fontSize: 25, color: greyColor),
+                      )
+                    ],
+                  ) : ListView.builder(
                       itemCount: todos.length,
                       itemBuilder: (context, index) {
                         return Padding(
