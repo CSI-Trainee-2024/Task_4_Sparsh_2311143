@@ -69,18 +69,14 @@ class _UpdateTodoState extends State<UpdateTodo> {
       String hour = "";
       String min = "";
 
-      if (picked.hour > 12) {
-        if ((picked.hour - 12) > 9) {
-          hour = (picked.hour - 12).toString();
-        } else {
-          hour = "0${picked.hour - 12}";
-        }
+      if (picked.hour > 21) {
+        hour = (picked.hour - 12).toString();
+      } else if (picked.hour > 12) {
+        hour = "0${picked.hour - 12}";
+      } else if (picked.hour > 9) {
+        hour = (picked.hour).toString();
       } else {
-        if (picked.hour > 9) {
-          hour = picked.hour.toString();
-        } else {
-          hour = "0${picked.hour}";
-        }
+        hour = "0${picked.hour}";
       }
 
       if (picked.minute > 9) {
