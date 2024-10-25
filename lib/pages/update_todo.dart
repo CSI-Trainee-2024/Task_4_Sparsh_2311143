@@ -6,7 +6,6 @@ import 'package:todo_app/constants/size.dart';
 import 'package:todo_app/models/todo_model.dart';
 
 class UpdateTodo extends StatefulWidget {
-
   const UpdateTodo({super.key, required this.todo});
 
   final Todo todo;
@@ -16,7 +15,7 @@ class UpdateTodo extends StatefulWidget {
 }
 
 class _UpdateTodoState extends State<UpdateTodo> {
- final _form = GlobalKey<FormState>();
+  final _form = GlobalKey<FormState>();
 
   final List<String> categories = ["Design", "Development", "Research"];
   int selectedCategory = 0;
@@ -28,6 +27,16 @@ class _UpdateTodoState extends State<UpdateTodo> {
   final TextEditingController _descController = TextEditingController();
 
   final TimeOfDay _timeOfDay = TimeOfDay.now();
+
+  @override
+  initState() {
+    _titleController.text = widget.todo.title;
+    _descController.text = widget.todo.description;
+    _dateController.text = widget.todo.date;
+    _startTimeController.text = widget.todo.startTime;
+    _endTimeController.text = widget.todo.endTime;
+    selectedCategory = categories.indexOf(widget.todo.category);
+  }
 
   Future<void> _selectDate() async {
     DateTime? picked = await showDatePicker(
@@ -56,28 +65,26 @@ class _UpdateTodoState extends State<UpdateTodo> {
     );
 
     if (picked != null) {
-
       String hour = "";
       String min = "";
-      
-      if(picked.hour > 12){
-        if((picked.hour - 12) > 9){
+
+      if (picked.hour > 12) {
+        if ((picked.hour - 12) > 9) {
           hour = (picked.hour - 12).toString();
-        }else{
+        } else {
           hour = "0${picked.hour - 12}";
         }
-      }else{
-        if(picked.hour > 9){
+      } else {
+        if (picked.hour > 9) {
           hour = picked.hour.toString();
-        }else{
+        } else {
           hour = "0${picked.hour}";
         }
       }
 
-
-      if(picked.minute > 9){
+      if (picked.minute > 9) {
         min = picked.minute.toString();
-      }else{
+      } else {
         min = "0${picked.minute}";
       }
 
@@ -88,7 +95,7 @@ class _UpdateTodoState extends State<UpdateTodo> {
     }
   }
 
-  void createTODO() {
+  void updateTODO() {
     final validateStatus = _form.currentState?.validate();
     if (validateStatus!) {
       final Todo todo = Todo(
@@ -97,16 +104,22 @@ class _UpdateTodoState extends State<UpdateTodo> {
           date: _dateController.text,
           startTime: _startTimeController.text,
           endTime: _endTimeController.text,
-          category: categories[selectedCategory]
-          );
-      _titleController.clear();
-      _descController.clear();
-      _dateController.clear();
-      _startTimeController.clear();
-      _endTimeController.clear();
+          category: categories[selectedCategory]);
 
       Navigator.pop(context, todo);
     }
+  }
+
+  void deleteTodo() {
+    final Todo todo = Todo(
+        title: "DELETETODO",
+        description: "",
+        date: "",
+        startTime: "",
+        endTime: "",
+        category: "");
+
+    Navigator.pop(context, todo);
   }
 
   GestureDetector _getCategoryContainers(
@@ -208,17 +221,20 @@ class _UpdateTodoState extends State<UpdateTodo> {
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
                             onPressed: () {
-                              // Todo todo = Todo(
-                              //     title: "",
-                              //     description: "",
-                              //     date: "",
-                              //     time: "");
-                              // Navigator.pop(context, todo);
+                              final Todo todo = Todo(
+                                  title: "",
+                                  description: "",
+                                  date: "",
+                                  startTime: "",
+                                  endTime: "",
+                                  category: "");
+
+                              Navigator.pop(context, todo);
                             },
                             icon: Icon(Icons.arrow_back)),
                       ),
                       Text(
-                        "Create New Task",
+                        "Update Task",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),
@@ -350,7 +366,7 @@ class _UpdateTodoState extends State<UpdateTodo> {
                     height: screenHeight * 0.10,
                   ),
                   GestureDetector(
-                    onTap: createTODO,
+                    onTap: updateTODO,
                     child: Container(
                       alignment: Alignment.center,
                       width: screenWidth * 0.9,
@@ -358,7 +374,23 @@ class _UpdateTodoState extends State<UpdateTodo> {
                       decoration: BoxDecoration(
                           color: blueColor,
                           borderRadius: BorderRadius.circular(10)),
-                      child: const Text("Create Task",
+                      child: const Text("Update Task",
+                          style: TextStyle(fontSize: 20, color: whiteColor)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: deleteTodo,
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: screenWidth * 0.9,
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          color: redColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: const Text("Delete Task",
                           style: TextStyle(fontSize: 20, color: whiteColor)),
                     ),
                   ),

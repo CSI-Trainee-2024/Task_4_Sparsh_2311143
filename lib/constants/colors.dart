@@ -7,3 +7,4 @@ const whiteColor = Colors.white;
 const greyColor = Color(0xffb4b4b4);
 const blackcolor = Colors.black;
 const backgroundColor = Color(0xffeeeeee);
+const redColor = Color(0xffd43c3c);

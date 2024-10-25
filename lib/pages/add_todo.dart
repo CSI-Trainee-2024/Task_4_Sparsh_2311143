@@ -53,28 +53,26 @@ class _HomepageState extends State<AddTodo> {
     );
 
     if (picked != null) {
-
       String hour = "";
       String min = "";
 
-      if(picked.hour > 12){
-        if((picked.hour - 12) > 9){
+      if (picked.hour > 12) {
+        if ((picked.hour - 12) > 9) {
           hour = (picked.hour - 12).toString();
-        }else{
+        } else {
           hour = "0${picked.hour - 12}";
         }
-      }else{
-        if(picked.hour > 9){
+      } else {
+        if (picked.hour > 9) {
           hour = picked.hour.toString();
-        }else{
+        } else {
           hour = "0${picked.hour}";
         }
       }
 
-
-      if(picked.minute > 9){
+      if (picked.minute > 9) {
         min = picked.minute.toString();
-      }else{
+      } else {
         min = "0${picked.minute}";
       }
 
@@ -94,8 +92,7 @@ class _HomepageState extends State<AddTodo> {
           date: _dateController.text,
           startTime: _startTimeController.text,
           endTime: _endTimeController.text,
-          category: categories[selectedCategory]
-          );
+          category: categories[selectedCategory]);
       _titleController.clear();
       _descController.clear();
       _dateController.clear();
@@ -205,12 +202,15 @@ class _HomepageState extends State<AddTodo> {
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
                             onPressed: () {
-                              // Todo todo = Todo(
-                              //     title: "",
-                              //     description: "",
-                              //     date: "",
-                              //     time: "");
-                              // Navigator.pop(context, todo);
+                              final Todo todo = Todo(
+                                  title: "",
+                                  description: "",
+                                  date: "",
+                                  startTime: "",
+                                  endTime: "",
+                                  category: "");
+
+                              Navigator.pop(context, todo);
                             },
                             icon: Icon(Icons.arrow_back)),
                       ),

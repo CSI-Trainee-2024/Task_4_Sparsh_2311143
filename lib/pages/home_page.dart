@@ -95,10 +95,16 @@ class _HomePageState extends State<HomePage> {
                             onTap: () async {
                               final Todo todo = await Navigator.of(context)
                                   .push(MaterialPageRoute(
-                                      builder: (context) => UpdateTodo(todo: todos[index],)));
-                              if (todo.title != "") {
+                                      builder: (context) => UpdateTodo(
+                                            todo: todos[index],
+                                          )));
+                              if (todo.title == "DELETETODO") {
                                 setState(() {
-                                  todos.add(todo);
+                                  todos.removeAt(index);
+                                });
+                              } else if (todo.title != "") {
+                                setState(() {
+                                  todos[index] = todo;
                                 });
                               }
                             },
