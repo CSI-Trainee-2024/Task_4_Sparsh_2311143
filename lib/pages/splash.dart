@@ -13,8 +13,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
- 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -52,10 +50,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                        (Route<dynamic> route) => false);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                    );
                   },
                   child: Container(
                     alignment: Alignment.center,
