@@ -31,17 +31,15 @@ class _HomePageState extends State<HomePage> {
     return (numberOfCompletedTodos / todos.length);
   }
 
-
-  _getImageLink(String category){
-    if(category == "Design"){
+  _getImageLink(String category) {
+    if (category == "Design") {
       return "assets/design.png";
-    }else if(category == "Development"){
+    } else if (category == "Development") {
       return "assets/development.png";
-    }else{
+    } else {
       return "assets/research.png";
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -93,49 +91,57 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 10),
                 Expanded(
-                  child: todos.length == 0 ? Column(
-                    children: [
-                      Image.asset("assets/placeholder.png" ,color: greyColor.withOpacity(0.3)),
-                      Text("No Task found",
-                      style: TextStyle(fontSize: 25, color: greyColor),
-                      )
-                    ],
-                  ) : ListView.builder(
-                      itemCount: todos.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.05, vertical: 16),
-                          child: TodoCard(
-                            title: todos[index].title,
-                            endTime: todos[index].endTime,
-                            isCompleted: todos[index].isCompleted,
-                            startTime: todos[index].startTime,
-                            imagePath: _getImageLink(todos[index].category),
-                            onTap: () async {
-                              final Todo todo = await Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                      builder: (context) => UpdateTodo(
-                                            todo: todos[index],
-                                          )));
-                              if (todo.title == "DELETETODO") {
-                                setState(() {
-                                  todos.removeAt(index);
-                                });
-                              } else if (todo.title != "") {
-                                setState(() {
-                                  todos[index] = todo;
-                                });
-                              }
-                            },
-                            onValueChanged: (value) {
-                              setState(() {
-                                todos[index].isCompleted = value;
-                              });
-                            },
-                          ),
-                        );
-                      }),
+                  child: todos.length == 0
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/placeholder.png",
+                                color: greyColor.withOpacity(0.3),
+                                height: screenHeight * 0.3),
+                            Text(
+                              "No Task found",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: greyColor.withOpacity(0.5)),
+                            )
+                          ],
+                        )
+                      : ListView.builder(
+                          itemCount: todos.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.05, vertical: 16),
+                              child: TodoCard(
+                                title: todos[index].title,
+                                endTime: todos[index].endTime,
+                                isCompleted: todos[index].isCompleted,
+                                startTime: todos[index].startTime,
+                                imagePath: _getImageLink(todos[index].category),
+                                onTap: () async {
+                                  final Todo todo = await Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                          builder: (context) => UpdateTodo(
+                                                todo: todos[index],
+                                              )));
+                                  if (todo.title == "DELETETODO") {
+                                    setState(() {
+                                      todos.removeAt(index);
+                                    });
+                                  } else if (todo.title != "") {
+                                    setState(() {
+                                      todos[index] = todo;
+                                    });
+                                  }
+                                },
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    todos[index].isCompleted = value;
+                                  });
+                                },
+                              ),
+                            );
+                          }),
                 ),
               ],
             ),
