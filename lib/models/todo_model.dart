@@ -1,11 +1,11 @@
 class Todo {
-  String? title;
-  String? description;
-  String? date;
-  String? startTime;
-  String? endTime;
-  String? category;
-  bool? isCompleted;
+  String title;
+  String description;
+  String date;
+  String startTime;
+  String endTime;
+  String category;
+  bool isCompleted;
 
   Todo(
       {required this.title,

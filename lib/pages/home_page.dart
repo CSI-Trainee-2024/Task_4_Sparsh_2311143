@@ -5,6 +5,8 @@ import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/constants/size.dart';
 import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/pages/add_todo.dart';
+import 'package:todo_app/pages/update_todo.dart';
+import 'package:todo_app/shared/todo_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,9 +21,12 @@ class _HomePageState extends State<HomePage> {
   double _getCompletedTodosValue() {
     int numberOfCompletedTodos = 0;
     for (int i = 0; i < todos.length; i++) {
-      if (todos[i].isCompleted!) {
+      if (todos[i].isCompleted) {
         numberOfCompletedTodos++;
       }
+    }
+    if (todos.isEmpty) {
+      return 0.0;
     }
     return (numberOfCompletedTodos / todos.length);
   }
@@ -70,101 +75,38 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                
-                Text("Today's Task",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                Text(
+                  "Today's Task",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
                 SizedBox(height: 10),
                 Expanded(
                   child: ListView.builder(
                       itemCount: todos.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.05, vertical: 16),
+                        return Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenWidth * 0.05, vertical: 16),
-                          color: whiteColor,
-                          child: Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    height: 40,
-                                    width: screenWidth * 0.1,
-                                    child: Image.asset("assets/splash_image.png"),
-                                  ),
-                                  SizedBox(
-                                    width: screenWidth * 0.025,
-                                  ),
-                                  Container(
-                                    width: screenWidth * 0.45,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          todos[index].title!,
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(todos[index].description!)
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: screenWidth * 0.025,
-                                  ),
-                                  Container(
-                                    width: screenWidth * 0.2,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          todos[index].date!,
-                                        ),
-                                        // Text(todos[index].time!),
-                                        // Row(children: [
-                                        //   IconButton(onPressed: (){}, icon: Icon(Icons.edit),iconSize: 20,),
-                                        //   IconButton(onPressed: (){}, icon: Icon(Icons.delete),iconSize: 20,)
-                                        // ],)
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  //IconButton(onPressed: (){}, icon: Icon(Icons.edit),iconSize: 20,),
-                                  Checkbox(
-                                    value: todos[index].isCompleted,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        todos[index].isCompleted = value!;
-                                      });
-                                    },
-                                  ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.edit),
-                                    iconSize: 20,
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        todos.removeAt(index);
-                                      });
-                                    },
-                                    icon: Icon(Icons.delete),
-                                    color: Colors.red,
-                                    iconSize: 20,
-                                  ),
-                                ],
-                              )
-                            ],
+                          child: TodoCard(
+                            title: todos[index].title,
+                            endTime: todos[index].endTime,
+                            isCompleted: todos[index].isCompleted,
+                            startTime: todos[index].startTime,
+                            onTap: () async {
+                              final Todo todo = await Navigator.of(context)
+                                  .push(MaterialPageRoute(
+                                      builder: (context) => UpdateTodo(todo: todos[index],)));
+                              if (todo.title != "") {
+                                setState(() {
+                                  todos.add(todo);
+                                });
+                              }
+                            },
+                            onValueChanged: (value) {
+                              setState(() {
+                                todos[index].isCompleted = value;
+                              });
+                            },
                           ),
                         );
                       }),
@@ -172,11 +114,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              child: Icon(
-                Icons.add,
-                color: darkBlueColor,
-              ),
-              backgroundColor: lightBlueColor,
+              backgroundColor: blueColor,
               onPressed: () async {
                 final Todo todo = await Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => AddTodo()));
@@ -186,6 +124,10 @@ class _HomePageState extends State<HomePage> {
                   });
                 }
               },
+              child: Icon(
+                Icons.add,
+                color: whiteColor,
+              ),
             )));
   }
 }

@@ -1,19 +1,22 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/constants/size.dart';
 import 'package:todo_app/models/todo_model.dart';
 
-class AddTodo extends StatefulWidget {
-  const AddTodo({super.key});
+class UpdateTodo extends StatefulWidget {
+
+  const UpdateTodo({super.key, required this.todo});
+
+  final Todo todo;
 
   @override
-  State<AddTodo> createState() => _HomepageState();
+  State<UpdateTodo> createState() => _UpdateTodoState();
 }
 
-class _HomepageState extends State<AddTodo> {
-  final _form = GlobalKey<FormState>();
+class _UpdateTodoState extends State<UpdateTodo> {
+ final _form = GlobalKey<FormState>();
 
   final List<String> categories = ["Design", "Development", "Research"];
   int selectedCategory = 0;
@@ -56,7 +59,7 @@ class _HomepageState extends State<AddTodo> {
 
       String hour = "";
       String min = "";
-
+      
       if(picked.hour > 12){
         if((picked.hour - 12) > 9){
           hour = (picked.hour - 12).toString();
