@@ -12,12 +12,14 @@ class TodoCard extends StatelessWidget {
       required this.isCompleted,
       required this.onTap,
       required this.onValueChanged,
+      required this.imagePath,
       required this.startTime});
 
   String title;
   String startTime;
   String endTime;
   bool isCompleted;
+  String imagePath;
   final onTap;
   final onValueChanged;
 
@@ -30,13 +32,14 @@ class TodoCard extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       leading: Container(
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: greyColor.withOpacity(0.25)
         ),
         height: screenWidth * 0.15,
         width: screenWidth * 0.15,
-        child: Image.asset("assets/splash_image.png"),
+        child: Image.asset(imagePath),
       ),
       title: Text(title,style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
       subtitle: Text("$startTime - $endTime",style: const TextStyle(fontSize: 16,color: greyColor),),

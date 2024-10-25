@@ -31,6 +31,18 @@ class _HomePageState extends State<HomePage> {
     return (numberOfCompletedTodos / todos.length);
   }
 
+
+  _getImageLink(String category){
+    if(category == "Design"){
+      return "assets/design.png";
+    }else if(category == "Development"){
+      return "assets/development.png";
+    }else{
+      return "assets/research.png";
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -92,6 +104,7 @@ class _HomePageState extends State<HomePage> {
                             endTime: todos[index].endTime,
                             isCompleted: todos[index].isCompleted,
                             startTime: todos[index].startTime,
+                            imagePath: _getImageLink(todos[index].category),
                             onTap: () async {
                               final Todo todo = await Navigator.of(context)
                                   .push(MaterialPageRoute(
