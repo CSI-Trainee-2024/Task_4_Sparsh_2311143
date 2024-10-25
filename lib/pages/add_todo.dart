@@ -24,8 +24,6 @@ class _HomepageState extends State<AddTodo> {
   final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
 
-  final TimeOfDay _timeOfDay = TimeOfDay.now();
-
   Future<void> _selectDate() async {
     DateTime? picked = await showDatePicker(
         context: context,
@@ -42,7 +40,7 @@ class _HomepageState extends State<AddTodo> {
 
   Future<void> _selectTime(TextEditingController controller) async {
     TimeOfDay? picked = await showTimePicker(
-      initialTime: _timeOfDay,
+      initialTime: TimeOfDay.now(),
       context: context,
       builder: (BuildContext? context, Widget? child) {
         return MediaQuery(
@@ -56,19 +54,24 @@ class _HomepageState extends State<AddTodo> {
       String hour = "";
       String min = "";
 
-      if (picked.hour > 12) {
-        if ((picked.hour - 12) > 9) {
-          hour = (picked.hour - 12).toString();
-        } else {
-          hour = "0${picked.hour - 12}";
-        }
-      } else {
-        if (picked.hour > 9) {
-          hour = picked.hour.toString();
-        } else {
-          hour = "0${picked.hour}";
-        }
-      }
+
+
+    if (picked.hour > 21){
+      hour = (picked.hour - 12).toString();
+    }
+    else if (picked.hour > 12){
+      hour = "0${picked.hour - 12}";
+
+    }
+
+    else if (picked.hour > 9){
+      hour = (picked.hour).toString();
+    }
+
+    else{
+      hour= "0${picked.hour}";
+    }
+
 
       if (picked.minute > 9) {
         min = picked.minute.toString();
@@ -93,11 +96,6 @@ class _HomepageState extends State<AddTodo> {
           startTime: _startTimeController.text,
           endTime: _endTimeController.text,
           category: categories[selectedCategory]);
-      _titleController.clear();
-      _descController.clear();
-      _dateController.clear();
-      _startTimeController.clear();
-      _endTimeController.clear();
 
       Navigator.pop(context, todo);
     }
