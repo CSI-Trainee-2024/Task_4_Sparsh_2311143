@@ -56,6 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         builder: (context) => HomePage(),
                       ),
                     );
+                    
                   },
                   child: Container(
                     alignment: Alignment.center,
