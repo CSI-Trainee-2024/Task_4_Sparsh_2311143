@@ -17,14 +17,15 @@ class UpdateTodo extends StatefulWidget {
 class _UpdateTodoState extends State<UpdateTodo> {
   final _form = GlobalKey<FormState>();
 
-  final List<String> categories = ["Design", "Development", "Research"];
-  int selectedCategory = 0;
+  // final List<String> categories = ["Design", "Development", "Research"];
+  // int selectedCategory = 0;
 
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
 
   final TimeOfDay _timeOfDay = TimeOfDay.now();
 
@@ -36,7 +37,7 @@ class _UpdateTodoState extends State<UpdateTodo> {
     _dateController.text = widget.todo.date;
     _startTimeController.text = widget.todo.startTime;
     _endTimeController.text = widget.todo.endTime;
-    selectedCategory = categories.indexOf(widget.todo.category);
+    _categoryController.text =widget.todo.category;
   }
 
   Future<void> _selectDate() async {
@@ -101,7 +102,7 @@ class _UpdateTodoState extends State<UpdateTodo> {
           date: _dateController.text,
           startTime: _startTimeController.text,
           endTime: _endTimeController.text,
-          category: categories[selectedCategory]);
+          category: _categoryController.text);
 
       Navigator.pop(context, todo);
     }
@@ -119,27 +120,27 @@ class _UpdateTodoState extends State<UpdateTodo> {
     Navigator.pop(context, todo);
   }
 
-  GestureDetector _getCategoryContainers(
-      String text, bool isSelected, int index) {
-    return GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedCategory = index;
-          });
-        },
-        child: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: isSelected ? blueColor : greyColor,
-              borderRadius: BorderRadius.circular(10)),
-          child: Text(
-            text,
-            style: TextStyle(
-                fontSize: 16, color: isSelected ? whiteColor : blackcolor),
-          ),
-        ));
-  }
+  // GestureDetector _getCategoryContainers(
+  //     String text, bool isSelected, int index) {
+  //   return GestureDetector(
+  //       onTap: () {
+  //         setState(() {
+  //           selectedCategory = index;
+  //         });
+  //       },
+  //       child: Container(
+  //         alignment: Alignment.center,
+  //         padding: EdgeInsets.all(10),
+  //         decoration: BoxDecoration(
+  //             color: isSelected ? blueColor : greyColor,
+  //             borderRadius: BorderRadius.circular(10)),
+  //         child: Text(
+  //           text,
+  //           style: TextStyle(
+  //               fontSize: 16, color: isSelected ? whiteColor : blackcolor),
+  //         ),
+  //       ));
+  // }
 
   Text _getTextFormFieldHeading(String text) {
     return Text(text,
@@ -255,22 +256,31 @@ class _UpdateTodoState extends State<UpdateTodo> {
                     height: 20,
                   ),
                   _getTextFormFieldHeading("Category"),
+                  TextFormField(
+                    controller: _categoryController,
+                    validator: (text){
+                      if (text == null || text.isEmpty){
+                        return "Enter a catergory";
+                      }
+                      return null;
+                    },
+                    decoration: _getTextFormFieldInputDecoration()),
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _getCategoryContainers(
-                          categories[0], selectedCategory == 0, 0),
-                      SizedBox(width: 20),
-                      _getCategoryContainers(
-                          categories[1], selectedCategory == 1, 1),
-                      SizedBox(width: 20),
-                      _getCategoryContainers(
-                          categories[2], selectedCategory == 2, 2),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //   children: [
+                  //     _getCategoryContainers(
+                  //         categories[0], selectedCategory == 0, 0),
+                  //     SizedBox(width: 20),
+                  //     _getCategoryContainers(
+                  //         categories[1], selectedCategory == 1, 1),
+                  //     SizedBox(width: 20),
+                  //     _getCategoryContainers(
+                  //         categories[2], selectedCategory == 2, 2),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 20,
                   ),

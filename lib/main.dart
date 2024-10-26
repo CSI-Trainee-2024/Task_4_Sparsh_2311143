@@ -20,24 +20,13 @@ class MyApp extends StatelessWidget {
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
       ]);
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus &&
-            currentFocus.focusedChild != null) {
-          currentFocus.focusedChild ?.unfocus();
-        }
-      },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-         theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: blueColor),
-        scaffoldBackgroundColor: backgroundColor
-      ),
-
-
-        home: const SplashScreen(),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+       theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(seedColor: blueColor),
+      scaffoldBackgroundColor: backgroundColor
+    ),
+      home: const SplashScreen(),
     );
   }
 }
