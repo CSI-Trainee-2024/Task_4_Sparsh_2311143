@@ -32,6 +32,17 @@ class _HomePageState extends State<HomePage> {
     return (numberOfCompletedTodos / todos.length);
   }
 
+  _updateCategories() {
+    List<String> cats = [];
+    for (int i = 0; i < todos.length; i++) {
+      if (!cats.contains(todos[i].category)) {
+        cats.add(todos[i].category);
+      }
+    }
+    setState(() {
+      categories = cats;
+    });
+  }
   // _getImageLink(String category) {
   //   if (category == "Design") {
   //     return "assets/design.png";
@@ -101,7 +112,8 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "No Task found",
                             style: TextStyle(
-                                fontSize: 20, color: greyColor.withOpacity(0.5)),
+                                fontSize: 20,
+                                color: greyColor.withOpacity(0.5)),
                           )
                         ],
                       )
@@ -118,8 +130,8 @@ class _HomePageState extends State<HomePage> {
                                     horizontal: screenWidth * 0.05),
                                 child: Text(
                                   categories[ind],
-                                  style:
-                                      TextStyle(fontSize: 18, color: blackcolor),
+                                  style: TextStyle(
+                                      fontSize: 18, color: blackcolor),
                                 ),
                               ),
                               ListView.builder(
@@ -140,21 +152,22 @@ class _HomePageState extends State<HomePage> {
                                           startTime: todos[index].startTime,
                                           onTap: () async {
                                             final Todo todo =
-                                                await Navigator.of(context).push(
-                                                    MaterialPageRoute(
+                                                await Navigator.of(context)
+                                                    .push(MaterialPageRoute(
                                                         builder: (context) =>
                                                             UpdateTodo(
-                                                              todo: todos[index],
+                                                              todo:
+                                                                  todos[index],
                                                             )));
-                                            if (todo.title == "DELETETODO") {
-                                              setState(() {
+
+                                            setState(() {
+                                              if (todo.title == "DELETETODO") {
                                                 todos.removeAt(index);
-                                              });
-                                            } else if (todo.title != "") {
-                                              setState(() {
+                                              } else if (todo.title != "") {
                                                 todos[index] = todo;
-                                              });
-                                            }
+                                              }
+                                            });
+                                            _updateCategories();
                                           },
                                           onValueChanged: (value) {
                                             setState(() {
