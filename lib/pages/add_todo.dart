@@ -29,7 +29,7 @@ class _HomepageState extends State<AddTodo> {
     DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2100));
 
     if (picked != null) {
@@ -91,12 +91,12 @@ class _HomepageState extends State<AddTodo> {
     final validateStatus = _form.currentState?.validate();
     if (validateStatus!) {
       final Todo todo = Todo(
-          title: _titleController.text,
-          description: _descController.text,
-          date: _dateController.text,
-          startTime: _startTimeController.text,
-          endTime: _endTimeController.text,
-          category: _categoryController.text);
+          title: _titleController.text.trim(),
+          description: _descController.text.trim(),
+          date: _dateController.text.trim(),
+          startTime: _startTimeController.text.trim(),
+          endTime: _endTimeController.text.trim(),
+          category: _categoryController.text.trim());
 
       Navigator.pop(context, todo);
     }
@@ -180,197 +180,200 @@ class _HomepageState extends State<AddTodo> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Form(
-            key: _form,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: IconButton(
-                            onPressed: () {
-                              final Todo todo = Todo(
-                                  title: "",
-                                  description: "",
-                                  date: "",
-                                  startTime: "",
-                                  endTime: "",
-                                  category: "");
-
-                              Navigator.pop(context, todo);
-                            },
-                            icon: Icon(Icons.arrow_back)),
-                      ),
-                      Text(
-                        "Create New Task",
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10, width: 10)
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenHeight * 0.08,
-                  ),
-                  _getTextFormFieldHeading("Task Name"),
-                  TextFormField(
-                      controller: _titleController,
-                      validator: (text) {
-                        if (text == null || text.isEmpty) {
-                          return "Enter a title";
-                        }
-                        return null;
-                      },
-                      decoration: _getTextFormFieldInputDecoration()),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _getTextFormFieldHeading("Category"),
-                  TextFormField(
-                    controller: _categoryController,
-                    validator: (text){
-                      if (text == null || text.isEmpty){
-                        return "Enter a catergory";
-                      }
-                      return null;
-                    },
-                    decoration: _getTextFormFieldInputDecoration()),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   children: [
-                  //     _getCategoryContainers(
-                  //         categories[0], selectedCategory == 0, 0),
-                  //     SizedBox(width: 20),
-                  //     _getCategoryContainers(
-                  //         categories[1], selectedCategory == 1, 1),
-                  //     SizedBox(width: 20),
-                  //     _getCategoryContainers(
-                  //         categories[2], selectedCategory == 2, 2),
-                  //   ],
-                  // ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _getTextFormFieldHeading("Description"),
-                  SizedBox(
-                    height: 100,
-                    child: TextFormField(
-                        controller: _descController,
-                        maxLines: null,
-                        expands: true,
-                        keyboardType: TextInputType.multiline,
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+    return PopScope(
+      canPop: false,
+      child: SafeArea(
+          child: Scaffold(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Form(
+              key: _form,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: IconButton(
+                              onPressed: () {
+                                final Todo todo = Todo(
+                                    title: "",
+                                    description: "",
+                                    date: "",
+                                    startTime: "",
+                                    endTime: "",
+                                    category: "");
+      
+                                Navigator.pop(context, todo);
+                              },
+                              icon: Icon(Icons.arrow_back)),
+                        ),
+                        Text(
+                          "Create New Task",
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 10, width: 10)
+                      ],
+                    ),
+                    SizedBox(
+                      height: screenHeight * 0.08,
+                    ),
+                    _getTextFormFieldHeading("Task Name"),
+                    TextFormField(
+                        controller: _titleController,
                         validator: (text) {
                           if (text == null || text.isEmpty) {
-                            return "Enter a Desc";
+                            return "Enter a title";
                           }
                           return null;
                         },
                         decoration: _getTextFormFieldInputDecoration()),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _getTextFormFieldHeading("Date"),
-                  TextFormField(
-                    controller: _dateController,
-                    validator: (text) {
-                      if (text == null || text.isEmpty) {
-                        return "Enter a Date";
-                      }
-                      return null;
-                    },
-                    decoration: _getTextFormFieldInputDecorationWithIcon(
-                        Icon(Icons.calendar_month_outlined)),
-                    readOnly: true,
-                    onTap: () {
-                      _selectDate();
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(child: _getTextFormFieldHeading("Start Time")),
-                      SizedBox(width: 20),
-                      Expanded(child: _getTextFormFieldHeading("End Time"))
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: TextFormField(
-                            controller: _startTimeController,
-                            style: TextStyle(fontSize: 18, color: Colors.black),
-                            validator: (text) {
-                              if (text == null || text.isEmpty) {
-                                return "Enter a Time";
-                              }
-                              return null;
-                            },
-                            decoration:
-                                _getTextFormFieldInputDecorationWithIcon(
-                                    Icon(Icons.timer_outlined)),
-                            readOnly: true,
-                            onTap: () => _selectTime(_startTimeController)),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Flexible(
-                        child: TextFormField(
-                            controller: _endTimeController,
-                            style: TextStyle(fontSize: 18, color: Colors.black),
-                            validator: (text) {
-                              if (text == null || text.isEmpty) {
-                                return "Enter a Time";
-                              }
-                              return null;
-                            },
-                            decoration:
-                                _getTextFormFieldInputDecorationWithIcon(
-                                    Icon(Icons.timer_outlined)),
-                            readOnly: true,
-                            onTap: () => _selectTime(_endTimeController)),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenHeight * 0.10,
-                  ),
-                  GestureDetector(
-                    onTap: createTODO,
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: screenWidth * 0.9,
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          color: blueColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Text("Create Task",
-                          style: TextStyle(fontSize: 20, color: whiteColor)),
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                ]),
+                    _getTextFormFieldHeading("Category"),
+                    TextFormField(
+                      controller: _categoryController,
+                      validator: (text){
+                        if (text == null || text.isEmpty){
+                          return "Enter a catergory";
+                        }
+                        return null;
+                      },
+                      decoration: _getTextFormFieldInputDecoration()),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //   children: [
+                    //     _getCategoryContainers(
+                    //         categories[0], selectedCategory == 0, 0),
+                    //     SizedBox(width: 20),
+                    //     _getCategoryContainers(
+                    //         categories[1], selectedCategory == 1, 1),
+                    //     SizedBox(width: 20),
+                    //     _getCategoryContainers(
+                    //         categories[2], selectedCategory == 2, 2),
+                    //   ],
+                    // ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _getTextFormFieldHeading("Description"),
+                    SizedBox(
+                      height: 100,
+                      child: TextFormField(
+                          controller: _descController,
+                          maxLines: null,
+                          expands: true,
+                          keyboardType: TextInputType.multiline,
+                          style: TextStyle(fontSize: 18, color: Colors.black),
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return "Enter a Desc";
+                            }
+                            return null;
+                          },
+                          decoration: _getTextFormFieldInputDecoration()),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _getTextFormFieldHeading("Date"),
+                    TextFormField(
+                      controller: _dateController,
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return "Enter a Date";
+                        }
+                        return null;
+                      },
+                      decoration: _getTextFormFieldInputDecorationWithIcon(
+                          Icon(Icons.calendar_month_outlined)),
+                      readOnly: true,
+                      onTap: () {
+                        _selectDate();
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(child: _getTextFormFieldHeading("Start Time")),
+                        SizedBox(width: 20),
+                        Expanded(child: _getTextFormFieldHeading("End Time"))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: TextFormField(
+                              controller: _startTimeController,
+                              style: TextStyle(fontSize: 18, color: Colors.black),
+                              validator: (text) {
+                                if (text == null || text.isEmpty) {
+                                  return "Enter a Time";
+                                }
+                                return null;
+                              },
+                              decoration:
+                                  _getTextFormFieldInputDecorationWithIcon(
+                                      Icon(Icons.timer_outlined)),
+                              readOnly: true,
+                              onTap: () => _selectTime(_startTimeController)),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Flexible(
+                          child: TextFormField(
+                              controller: _endTimeController,
+                              style: TextStyle(fontSize: 18, color: Colors.black),
+                              validator: (text) {
+                                if (text == null || text.isEmpty) {
+                                  return "Enter a Time";
+                                }
+                                return null;
+                              },
+                              decoration:
+                                  _getTextFormFieldInputDecorationWithIcon(
+                                      Icon(Icons.timer_outlined)),
+                              readOnly: true,
+                              onTap: () => _selectTime(_endTimeController)),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: screenHeight * 0.10,
+                    ),
+                    GestureDetector(
+                      onTap: createTODO,
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: screenWidth * 0.9,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            color: blueColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Text("Create Task",
+                            style: TextStyle(fontSize: 20, color: whiteColor)),
+                      ),
+                    ),
+                  ]),
+            ),
           ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

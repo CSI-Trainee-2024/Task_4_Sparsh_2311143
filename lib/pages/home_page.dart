@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Todo> todos = [];
+  List<String> categories = [];
 
   double _getCompletedTodosValue() {
     int numberOfCompletedTodos = 0;
@@ -31,22 +32,22 @@ class _HomePageState extends State<HomePage> {
     return (numberOfCompletedTodos / todos.length);
   }
 
-  _getImageLink(String category) {
-    if (category == "Design") {
-      return "assets/design.png";
-    } else if (category == "Development") {
-      return "assets/development.png";
-    } else {
-      return "assets/research.png";
-    }
-  }
+  // _getImageLink(String category) {
+  //   if (category == "Design") {
+  //     return "assets/design.png";
+  //   } else if (category == "Development") {
+  //     return "assets/development.png";
+  //   } else {
+  //     return "assets/research.png";
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            body: Column(
-              children: [
+            body: SingleChildScrollView(
+              child: Column(children: [
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
@@ -90,60 +91,85 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
-                Expanded(
-                  child: todos.isEmpty
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset("assets/placeholder.png",
-                                color: greyColor.withOpacity(0.3),
-                                height: screenHeight * 0.3),
-                            Text(
-                              "No Task found",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: greyColor.withOpacity(0.5)),
-                            )
-                          ],
-                        )
-                      : ListView.builder(
-                          itemCount: todos.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: screenWidth * 0.05, vertical: 16),
-                              child: TodoCard(
-                                title: todos[index].title,
-                                endTime: todos[index].endTime,
-                                isCompleted: todos[index].isCompleted,
-                                startTime: todos[index].startTime,
-                                imagePath: _getImageLink(todos[index].category),
-                                onTap: () async {
-                                  final Todo todo = await Navigator.of(context)
-                                      .push(MaterialPageRoute(
-                                          builder: (context) => UpdateTodo(
-                                                todo: todos[index],
-                                              )));
-                                  if (todo.title == "DELETETODO") {
-                                    setState(() {
-                                      todos.removeAt(index);
-                                    });
-                                  } else if (todo.title != "") {
-                                    setState(() {
-                                      todos[index] = todo;
-                                    });
-                                  }
-                                },
-                                onValueChanged: (value) {
-                                  setState(() {
-                                    todos[index].isCompleted = value;
-                                  });
-                                },
+                todos.isEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/placeholder.png",
+                              color: greyColor.withOpacity(0.3),
+                              height: screenHeight * 0.3),
+                          Text(
+                            "No Task found",
+                            style: TextStyle(
+                                fontSize: 20, color: greyColor.withOpacity(0.5)),
+                          )
+                        ],
+                      )
+                    : ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: categories.length,
+                        itemBuilder: (context, ind) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.05),
+                                child: Text(
+                                  categories[ind],
+                                  style:
+                                      TextStyle(fontSize: 18, color: blackcolor),
+                                ),
                               ),
-                            );
-                          }),
-                ),
-              ],
+                              ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: todos.length,
+                                  itemBuilder: (context, index) {
+                                    if (todos[index].category ==
+                                        categories[ind]) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: screenWidth * 0.05,
+                                            vertical: 16),
+                                        child: TodoCard(
+                                          title: todos[index].title,
+                                          endTime: todos[index].endTime,
+                                          isCompleted: todos[index].isCompleted,
+                                          startTime: todos[index].startTime,
+                                          onTap: () async {
+                                            final Todo todo =
+                                                await Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            UpdateTodo(
+                                                              todo: todos[index],
+                                                            )));
+                                            if (todo.title == "DELETETODO") {
+                                              setState(() {
+                                                todos.removeAt(index);
+                                              });
+                                            } else if (todo.title != "") {
+                                              setState(() {
+                                                todos[index] = todo;
+                                              });
+                                            }
+                                          },
+                                          onValueChanged: (value) {
+                                            setState(() {
+                                              todos[index].isCompleted = value;
+                                            });
+                                          },
+                                        ),
+                                      );
+                                    }
+                                    return Container();
+                                  }),
+                            ],
+                          );
+                        })
+              ]),
             ),
             floatingActionButton: FloatingActionButton(
               backgroundColor: blueColor,
@@ -153,6 +179,9 @@ class _HomePageState extends State<HomePage> {
                 if (todo.title != "") {
                   setState(() {
                     todos.add(todo);
+                    if (!categories.contains(todo.category)) {
+                      categories.add(todo.category);
+                    }
                   });
                 }
               },

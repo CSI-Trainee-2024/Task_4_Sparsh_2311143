@@ -12,14 +12,12 @@ class TodoCard extends StatelessWidget {
       required this.isCompleted,
       required this.onTap,
       required this.onValueChanged,
-      required this.imagePath,
       required this.startTime});
 
   String title;
   String startTime;
   String endTime;
   bool isCompleted;
-  String imagePath;
   final onTap;
   final onValueChanged;
 
@@ -39,7 +37,7 @@ class TodoCard extends StatelessWidget {
         ),
         height: screenWidth * 0.15,
         width: screenWidth * 0.15,
-        child: Image.asset(imagePath),
+        child: Image.asset("assets/research.png"),
       ),
       title: Text(title,style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
       subtitle: Text("$startTime - $endTime",style: const TextStyle(fontSize: 16,color: greyColor),),
